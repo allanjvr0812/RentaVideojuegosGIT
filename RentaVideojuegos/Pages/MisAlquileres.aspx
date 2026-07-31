@@ -4,6 +4,8 @@
 
     <h1>Mis alquileres</h1>
 
+    <asp:Label ID="lblMensajeError" runat="server" Visible="false"></asp:Label>
+
     <p>
         <asp:Button ID="btnCrear" runat="server"
             Text="Crear alquiler"
