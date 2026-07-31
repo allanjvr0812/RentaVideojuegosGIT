@@ -2,7 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h1>Iniciar sesión</h1>
+    <script>
+        document.body.classList.add('login-page');
+    </script>
+
+    <h2 style="text-align: center; margin-bottom: 25px;">Iniciar sesión</h2>
 
     <asp:Label ID="lblMensajeError" runat="server" CssClass="mensaje-error" ForeColor="Red" Visible="false" />
 
