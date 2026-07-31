@@ -25,11 +25,14 @@
             <asp:BoundField DataField="IdCategoria" HeaderText="Categoría" />
             <asp:BoundField DataField="EstadoTexto" HeaderText="Estado" />
 
-            <asp:HyperLinkField
-                HeaderText="Editar"
-                Text="Editar"
-                DataNavigateUrlFields="IdVideojuego"
-                DataNavigateUrlFormatString="~/Pages/FormularioVideojuego.aspx?id={0}" />
+            <asp:TemplateField HeaderText="Editar">
+                <ItemTemplate>
+                    <asp:HyperLink ID="lnkEditar" runat="server"
+                        Text="Editar"
+                        NavigateUrl='<%# "~/Pages/FormularioVideojuego.aspx?id=" + Eval("IdVideojuego") %>'
+                        CssClass="btn btn-sm btn-primary" />
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
 
