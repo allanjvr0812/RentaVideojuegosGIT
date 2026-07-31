@@ -1,0 +1,621 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="RentaVideojuegos.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%: Page.Title %> - GameRent CR</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <style>
+        :root {
+            --fondo-oscuro: #050816;
+            --fondo-panel: rgba(13, 18, 40, 0.88);
+            --morado-neon: #8a2cff;
+            --azul-neon: #00d9ff;
+            --rosado-neon: #ff2bd6;
+            --verde-neon: #7cff6b;
+            --amarillo-neon: #ffd166;
+            --texto-principal: #f4f7ff;
+            --texto-suave: #aebce6;
+            --borde-suave: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--texto-principal);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background:
+                radial-gradient(circle at 15% 10%, rgba(138, 44, 255, 0.35), transparent 26%),
+                radial-gradient(circle at 85% 15%, rgba(0, 217, 255, 0.28), transparent 24%),
+                radial-gradient(circle at 50% 95%, rgba(255, 43, 214, 0.25), transparent 30%),
+                linear-gradient(135deg, #02030a 0%, #071126 45%, #140725 100%);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 520px;
+            height: 520px;
+            right: -160px;
+            bottom: -160px;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0,217,255,0.22), transparent 65%);
+            filter: blur(12px);
+        }
+
+        .navbar {
+            background: rgba(3, 6, 18, 0.92) !important;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.28);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.55),
+                0 0 25px rgba(0, 217, 255, 0.12);
+            backdrop-filter: blur(12px);
+        }
+
+        .brand-block {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none !important;
+            padding: 6px 0;
+        }
+
+        .logo-frame {
+            position: relative;
+            width: 76px;
+            height: 76px;
+            border-radius: 24px;
+            padding: 4px;
+            background: conic-gradient(from 180deg, var(--azul-neon), var(--morado-neon), var(--rosado-neon), var(--verde-neon), var(--azul-neon));
+            box-shadow:
+                0 0 18px rgba(0, 217, 255, 0.45),
+                0 0 34px rgba(255, 43, 214, 0.25),
+                inset 0 0 12px rgba(255,255,255,0.08);
+        }
+
+        .logo-frame::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: 30px;
+            background: conic-gradient(from 180deg, var(--azul-neon), transparent, var(--rosado-neon), transparent, var(--azul-neon));
+            filter: blur(14px);
+            opacity: 0.75;
+            z-index: -1;
+        }
+
+        .logo-frame::after {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+            pointer-events: none;
+        }
+
+        .logo-box {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.28), transparent 24%),
+                linear-gradient(135deg, #071126, #141033 45%, #230725);
+            color: #ffffff;
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-shadow:
+                0 0 8px rgba(0, 217, 255, 0.85),
+                0 0 16px rgba(255, 43, 214, 0.55);
+            box-shadow:
+                inset 0 0 18px rgba(0, 217, 255, 0.16),
+                inset 0 0 24px rgba(255, 43, 214, 0.10);
+        }
+
+        .brand-title {
+            display: block;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1;
+            color: #ffffff;
+            text-shadow:
+                0 0 12px rgba(0, 217, 255, 0.45),
+                0 0 22px rgba(255, 43, 214, 0.24);
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 6px;
+            color: var(--texto-suave);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.6px;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            color: var(--texto-suave) !important;
+            font-weight: 700;
+            margin: 0 3px;
+            padding: 10px 15px !important;
+            border-radius: 16px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, rgba(138,44,255,0.35), rgba(0,217,255,0.18));
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.08),
+                0 0 18px rgba(0,217,255,0.20);
+            transform: translateY(-1px);
+        }
+
+        .navbar-text {
+            color: #ffffff !important;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 18px;
+            background:
+                linear-gradient(135deg, rgba(255,43,214,0.20), rgba(0,217,255,0.14));
+            border: 1px solid rgba(255,255,255,0.10);
+            box-shadow: 0 0 16px rgba(255,43,214,0.12);
+        }
+
+        .body-content {
+            position: relative;
+            margin-top: 34px;
+            margin-bottom: 34px;
+            padding: 34px;
+            border-radius: 30px;
+            background:
+                linear-gradient(145deg, rgba(13,18,40,0.94), rgba(22,12,39,0.88));
+            border: 1px solid var(--borde-suave);
+            box-shadow:
+                0 20px 55px rgba(0, 0, 0, 0.58),
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 0 35px rgba(138,44,255,0.10);
+            backdrop-filter: blur(14px);
+            overflow: hidden;
+        }
+
+        .body-content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--azul-neon), var(--morado-neon), var(--rosado-neon), var(--verde-neon));
+            box-shadow: 0 0 18px rgba(0,217,255,0.45);
+        }
+
+        .page-header {
+            position: relative;
+            margin-bottom: 24px;
+            padding: 18px 20px;
+            border-radius: 22px;
+            background:
+                linear-gradient(135deg, rgba(0,217,255,0.11), rgba(138,44,255,0.13), rgba(255,43,214,0.09));
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .page-header h2 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 31px;
+            font-weight: 900;
+            letter-spacing: 0.4px;
+            text-shadow: 0 0 16px rgba(0,217,255,0.28);
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 31px;
+            font-weight: 900;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            text-shadow: 0 0 12px rgba(255,43,214,0.18);
+        }
+
+        h3 {
+            color: #ffffff;
+            font-weight: 850;
+            margin-top: 28px;
+            margin-bottom: 16px;
+        }
+
+        p, td, th, label, span, div {
+            color: var(--texto-principal);
+        }
+
+        a {
+            color: var(--azul-neon);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #8ff0ff;
+        }
+
+        .mensaje-error {
+            display: block;
+            margin-bottom: 16px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            color: #ffffff;
+            font-weight: 700;
+            background: linear-gradient(135deg, rgba(255,69,105,0.30), rgba(255,43,214,0.13));
+            border: 1px solid rgba(255,105,130,0.38);
+            box-shadow: 0 0 20px rgba(255,69,105,0.13);
+        }
+
+        .mensaje-correcto {
+            display: block;
+            margin-bottom: 16px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            color: #ffffff;
+            font-weight: 700;
+            background: linear-gradient(135deg, rgba(124,255,107,0.22), rgba(0,217,255,0.12));
+            border: 1px solid rgba(124,255,107,0.35);
+            box-shadow: 0 0 20px rgba(124,255,107,0.13);
+        }
+
+        .form-control,
+        select,
+        input[type=text],
+        input[type=password],
+        input[type=date],
+        input[type=email],
+        textarea {
+            background: rgba(255,255,255,0.075) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255,255,255,0.14) !important;
+            border-radius: 16px !important;
+            padding: 11px 13px !important;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.18) !important;
+        }
+
+        .form-control:focus,
+        select:focus,
+        input:focus,
+        textarea:focus {
+            outline: none !important;
+            border-color: var(--azul-neon) !important;
+            box-shadow:
+                0 0 0 0.18rem rgba(0,217,255,0.18) !important,
+                0 0 18px rgba(0,217,255,0.16) !important;
+        }
+
+        select option {
+            background-color: #10182e;
+            color: #ffffff;
+        }
+
+        .btn,
+        input[type=submit],
+        input[type=button] {
+            border: none !important;
+            border-radius: 18px !important;
+            font-weight: 800 !important;
+            padding: 11px 20px !important;
+            margin-right: 7px;
+            margin-bottom: 8px;
+            transition: all 0.25s ease;
+            letter-spacing: 0.2px;
+        }
+
+        .btn:hover,
+        input[type=submit]:hover,
+        input[type=button]:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, var(--morado-neon), var(--azul-neon)) !important;
+            box-shadow: 0 12px 24px rgba(0,217,255,0.18);
+        }
+
+        .btn-success {
+            color: #071126 !important;
+            background: linear-gradient(135deg, #20f28f, var(--verde-neon)) !important;
+            box-shadow: 0 12px 24px rgba(124,255,107,0.16);
+        }
+
+        .btn-danger {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, #ff355d, var(--rosado-neon)) !important;
+            box-shadow: 0 12px 24px rgba(255,43,214,0.18);
+        }
+
+        .btn-secondary {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, #33415c, #68759b) !important;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.22);
+        }
+
+        table.tabla-datos,
+        table.tabla-formulario,
+        table.tabla-detalle {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            border-radius: 22px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.09);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        table.tabla-datos th {
+            padding: 13px 11px;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(138,44,255,0.48), rgba(0,217,255,0.25));
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.8px;
+        }
+
+        table.tabla-datos td,
+        table.tabla-detalle td {
+            padding: 12px 11px;
+            color: var(--texto-principal);
+            border-bottom: 1px solid rgba(255,255,255,0.075);
+        }
+
+        table.tabla-formulario td {
+            padding: 13px;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        table.tabla-detalle td:first-child,
+        table.tabla-formulario td:first-child {
+            color: var(--texto-suave);
+            font-weight: 800;
+            width: 220px;
+        }
+
+        .table {
+            color: var(--texto-principal) !important;
+            background: transparent !important;
+        }
+
+        .table > tbody > tr > td,
+        .table > thead > tr > th {
+            background-color: transparent !important;
+            color: var(--texto-principal) !important;
+            border-color: rgba(255,255,255,0.08) !important;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: rgba(255,255,255,0.035) !important;
+        }
+
+        .table-dark {
+            --bs-table-bg: transparent;
+            --bs-table-striped-bg: rgba(255,255,255,0.04);
+            --bs-table-striped-color: #ffffff;
+            --bs-table-color: #ffffff;
+            --bs-table-border-color: rgba(255,255,255,0.08);
+        }
+
+        .validator,
+        span[style*="color:Red"],
+        span[style*="color:red"] {
+            color: #ff8ea1 !important;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        hr {
+            margin-top: 30px;
+            margin-bottom: 18px;
+            border-color: rgba(255,255,255,0.11);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: var(--texto-suave);
+            letter-spacing: 0.3px;
+        }
+
+        .footer-name {
+            color: #ffffff;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(0,217,255,0.30);
+        }
+
+        @media (max-width: 768px) {
+            .logo-frame {
+                width: 58px;
+                height: 58px;
+                border-radius: 18px;
+            }
+
+            .logo-box {
+                font-size: 21px;
+                border-radius: 16px;
+            }
+
+            .brand-title {
+                font-size: 22px;
+            }
+
+            .brand-subtitle {
+                font-size: 9px;
+                letter-spacing: 1.5px;
+            }
+
+            .body-content {
+                padding: 22px;
+                border-radius: 24px;
+            }
+
+            .page-header h2 {
+                font-size: 25px;
+            }
+
+            table.tabla-detalle td:first-child,
+            table.tabla-formulario td:first-child {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form runat="server">
+
+        <!-- ScriptManager requerido para los controles de ASP.NET Web Forms. -->
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <!-- Menú principal. Las opciones se controlan desde Site.Master.cs según el usuario. -->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+            <div class="container">
+
+                <a class="brand-block" runat="server" href="~/Pages/Login.aspx">
+                    <div class="logo-frame">
+                        <div class="logo-box">GR</div>
+                    </div>
+
+                    <div>
+                        <span class="brand-title">GameRent CR</span>
+                        <span class="brand-subtitle">Neon Gaming Rental</span>
+                    </div>
+                </a>
+
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    title="Alternar navegación" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Alternar navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item">
+                            <asp:HyperLink ID="lnkMisAlquileres" runat="server"
+                                CssClass="nav-link"
+                                NavigateUrl="~/Pages/MisAlquileres.aspx">
+                                Mis alquileres
+                            </asp:HyperLink>
+                        </li>
+
+                        <li class="nav-item">
+                            <asp:HyperLink ID="lnkGestionarAlquileres" runat="server"
+                                CssClass="nav-link"
+                                NavigateUrl="~/Pages/GestionarAlquileres.aspx">
+                                Gestionar alquileres
+                            </asp:HyperLink>
+                        </li>
+
+                        <li class="nav-item">
+                            <asp:HyperLink ID="lnkGestionarVideojuegos" runat="server"
+                                CssClass="nav-link"
+                                NavigateUrl="~/Pages/GestionarVideojuegos.aspx">
+                                Gestionar videojuegos
+                            </asp:HyperLink>
+                        </li>
+
+                        <li class="nav-item">
+                            <asp:LinkButton ID="lnkCerrarSesion" runat="server"
+                                CssClass="nav-link"
+                                OnClientClick="return confirm('¿Desea cerrar sesión?');"
+                                OnClick="lnkCerrarSesion_Click">
+                                Cerrar sesión
+                            </asp:LinkButton>
+                        </li>
+
+                    </ul>
+
+                    <span class="navbar-text">
+                        <asp:Label ID="lblNombreUsuario" runat="server" />
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contenedor donde se cargan las páginas internas del sistema. -->
+        <div class="container body-content">
+
+            <div class="page-header">
+                <h2>
+                    <asp:Label ID="lblTituloSeccion" runat="server" />
+                </h2>
+            </div>
+
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+
+            <hr />
+
+            <footer>
+                <p>
+                    <span class="footer-name">GameRent CR</span> —
+                    Sistema de Renta de Videojuegos —
+                    Allan Varela y Emanuel López —
+                    Universidad Castro Carazo
+                </p>
+            </footer>
+        </div>
+    </form>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
+</body>
+</html>
