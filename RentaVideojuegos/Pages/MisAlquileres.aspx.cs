@@ -30,7 +30,7 @@ namespace RentaVideojuegos.Pages
         private void CargarAlquileres()
         {
             /*
-                Se usa el id del jugador guardado en sesión.
+                Se usa el Id del jugador guardado en sesión.
                 Así el usuario normal solo ve sus propios alquileres.
             */
 
