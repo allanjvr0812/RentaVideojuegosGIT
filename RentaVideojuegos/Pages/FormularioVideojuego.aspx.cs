@@ -17,7 +17,7 @@ namespace RentaVideojuegos.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Se valida que el usuario haya iniciado sesión.
+            // Se valida que el usuario haya iniciado sesión correctamente.
             if (Session["IdJugador"] == null)
             {
                 Response.Redirect("~/Pages/Login.aspx", true);
@@ -26,7 +26,7 @@ namespace RentaVideojuegos.Pages
 
             bool esAdministrador = Convert.ToBoolean(Session["EsAdministrador"]);
 
-            // Solo el administrador puede crear, modificar o inactivar videojuegos.
+            // Solo el administrador puede crear, modificar o inactivar videojuegos por lo que inicia como Administrador.
             if (!esAdministrador)
             {
                 Response.Redirect("~/Pages/MisAlquileres.aspx", true);
