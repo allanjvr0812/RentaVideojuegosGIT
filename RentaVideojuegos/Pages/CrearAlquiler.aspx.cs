@@ -17,7 +17,7 @@ namespace RentaVideojuegos.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Si no hay una sesión activa, el usuario vuelve al login.
+            // Si no hay una sesión activa, el usuario vuelve al login para su logueo nuevamente.
             if (Session["IdJugador"] == null)
             {
                 Response.Redirect("~/Pages/Login.aspx", true);
@@ -120,7 +120,7 @@ namespace RentaVideojuegos.Pages
 
                 /*
                     Los TextBox de fecha usan formato yyyy-MM-dd porque así trabaja
-                    el control TextMode="Date" en ASP.NET.
+                    el control TextMode="Date" en ASP.NET pa su mejor rendimiento.
                 */
                 if (!DateTime.TryParseExact(txtFechaInicio.Text.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaInicio))
                 {
