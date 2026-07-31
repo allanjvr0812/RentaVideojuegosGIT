@@ -176,7 +176,12 @@ namespace RentaVideojuegos.Pages
             }
             catch (Exception exc)
             {
-                MostrarMensaje("No se pudo crear el alquiler: " + exc.Message, true);
+                string mensaje = exc.Message;
+
+                if (mensaje.Contains("No hay videojuegos disponibles"))
+                    MostrarMensaje(mensaje, true);
+                else
+                    MostrarMensaje("No se pudo crear el alquiler: " + mensaje, true);
             }
         }
 

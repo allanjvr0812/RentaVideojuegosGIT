@@ -1,6 +1,7 @@
 ﻿using DataModels;
 using System;
 using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace RentaVideojuegos.Pages
 {
@@ -58,6 +59,7 @@ namespace RentaVideojuegos.Pages
                             v.NombreSucursal,
                             v.Titulo,
                             v.IdCategoria,
+                            v.Estado,
                             EstadoTexto = v.Estado == 'A' ? "Activo" : "Inactivo"
                         })
                         .ToList();
@@ -76,6 +78,31 @@ namespace RentaVideojuegos.Pages
         {
             // Abre el formulario en modo creación, porque no se envía id por la URL.
             Response.Redirect("~/Pages/FormularioVideojuego.aspx", true);
+        }
+
+        protected void gvVideojuegos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            /*
+                Se ejecuta por cada fila al hacer DataBind.
+                Si el videojuego está inactivo, oculta el enlace "Editar".
+            */
+            if (e.Row.RowType != DataControlRowType.DataRow)
+                return;
+
+            var item = e.Row.DataItem;
+            var estadoPropiedad = item.GetType().GetProperty("Estado");
+
+            if (estadoPropiedad == null)
+                return;
+
+            char estado = (char)estadoPropiedad.GetValue(item);
+
+            if (estado == 'I')
+            {
+                HyperLink lnkEditar = (HyperLink)e.Row.FindControl("lnkEditar");
+                if (lnkEditar != null)
+                    lnkEditar.Visible = false;
+            }
         }
 
         private void MostrarMensaje(string mensaje, bool esError)
