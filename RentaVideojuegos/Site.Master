@@ -22,33 +22,45 @@
         /*Esto hace que la pantalla del login sea corto y no alargado*/
 
         /* Modificación EXCLUSIVA para la pantalla de Login */
-.login-page .body-content {
-    max-width: 440px !important;  /* Limita el ancho como la imagen de referencia */
-    margin: 60px auto !important; /* Centra la tarjeta horizontalmente */
-    padding: 35px 30px !important;
-}
+        .login-page .body-content
+        {
+            max-width: 440px !important;  /* Limita el ancho como la imagen de referencia */
+            margin: 60px auto !important; /* Centra la tarjeta horizontalmente */
+            padding: 35px 30px !important;
+        }
 
-/* Oculta la cabecera genérica y footer dentro del Login si deseas que se vea aún más limpio */
-.login-page .page-header {
-    display: none !important; 
-}
+    /* Oculta la cabecera genérica y footer dentro del Login si deseas que se vea aún más limpio */
+        .login-page .page-header
+        {
+            display: none !important; 
+        }
 
-/* Estiliza las etiquetas e inputs para que abarquen el ancho completo de la tarjeta corta */
-.login-page .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
+    /* Estiliza las etiquetas e inputs para que abarquen el ancho completo de la tarjeta corta */
+        .login-page .form-group
+        {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-.login-page input[type=text],
-.login-page input[type=password],
-.login-page input[type=email],
-.login-page .btn {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-right: 0 !important;
-    display: block;
-}
+        .login-page input[type=text],
+        .login-page input[type=password],
+        .login-page input[type=email],
+        .login-page .btn
+        {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-right: 0 !important;
+            display: block;
+        }
 
+
+        /* Oculta la etiqueta del nombre de usuario solo cuando se está en la página de Login ya que aparecía un ovalo en dónde
+            se debe de mostrar el nombre del usuario o Administrador.
+        */
+        .login-page .navbar-text
+        {
+            display: none !important;
+        }
 
 /*--------------------------------------------------------------------------------------*/
 
