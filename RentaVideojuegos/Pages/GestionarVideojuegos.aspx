@@ -16,7 +16,8 @@
     <asp:GridView ID="gvVideojuegos" runat="server"
         AutoGenerateColumns="False"
         CssClass="table table-dark table-striped tabla-datos"
-        EmptyDataText="No hay videojuegos registrados.">
+        EmptyDataText="No hay videojuegos registrados."
+        OnRowDataBound="gvVideojuegos_RowDataBound">
 
         <Columns>
             <asp:BoundField DataField="IdVideojuego" HeaderText="ID" />
