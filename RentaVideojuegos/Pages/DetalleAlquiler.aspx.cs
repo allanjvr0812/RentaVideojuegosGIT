@@ -199,7 +199,7 @@ namespace RentaVideojuegos.Pages
 
         private void RedirigirALista()
         {
-            // Envía al usuario a la pantalla que le corresponde según su rol.
+            // Envía al usuario a la pantalla que le corresponde según su rol correspondiente.
             bool esAdministrador = Convert.ToBoolean(Session["EsAdministrador"]);
 
             if (esAdministrador)
